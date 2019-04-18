@@ -7,17 +7,17 @@ module Messagex
 
   class Messagex
     attr_reader :logger
-    attr_reader :exitCode
+#    attr_reader :exitCode
 
-    def initialize(initialExitCode, initialNum, debug=:warn, logger=nil)
+    def initialize(initialExitCode, initialNum, debug=:warn, logger=nil, logfname=nil)
       @exitCode={}
-      @currentExitCode=0
       setInitialExitCode(initialExitCode, initialNum)
       
       if logger
         @logger=logger
       else
-        @logger = Loggerx.new("log.txt")
+        logFname=logfname ? logfname : "log.txt"
+        @logger = Loggerx.new(logFname)
         #    @logger.level = Logger::WARN
         #    @logger.level = Logger::INFO
         case debug
@@ -40,9 +40,13 @@ module Messagex
       end
     end
 
-    def setInitialExitCode(str, num)
+    def ec(name)
+      @exitCode[name]
+    end
+
+    def setInitialExitCode(name, num)
       @exitCode={}
-      @exitCode[str]=num
+      @exitCode[name]=num
       @curExitCode=num
     end
 
@@ -84,6 +88,12 @@ module Messagex
       else
         STDOUT.fatal(mes)
       end
+    end
+
+    def outputException(ex)
+      outputFatal(ex.class)
+      outputFatal(ex.message)
+      outputFatal(ex.backtrace.join("\n"))
     end
   end
 end
