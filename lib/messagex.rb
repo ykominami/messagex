@@ -38,6 +38,20 @@ module Messagex
           "#{msg}\n"
         end
       end
+
+      addExitCode("EXIT_CODE_NORMAL_EXIT")
+      addExitCode("EXIT_CODE_CANNOT_READ_FILE")
+      addExitCode("EXIT_CODE_CANNOT_WRITE_FILE")
+      addExitCode("EXIT_CODE_CANNOT_FIND_FILE_OR_EMPTY")
+      addExitCode("EXIT_CODE_CANNOT_FIND_FILE")
+      addExitCode("EXIT_CODE_FILE_IS_EMPTY")
+      addExitCode("EXIT_CODE_CANNOT_CHANGE_DIRECTORY")
+      addExitCode("EXIT_CODE_CANNOT_CLOSE_FILE")
+      addExitCode("EXIT_CODE_CANNOT_OPEN_FILE")
+      addExitCode("EXIT_CODE_CANNOT_CLOSE_FILE")
+      addExitCode("EXIT_CODE_CANNOT_COPY_FILE")
+      addExitCode("EXIT_CODE_ARGV_SIZE")
+      addExitCode("EXIT_CODE_ARGV_ERROR")
     end
 
     def ec(name)
