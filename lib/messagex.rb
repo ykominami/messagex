@@ -52,6 +52,7 @@ module Messagex
       addExitCode("EXIT_CODE_CANNOT_COPY_FILE")
       addExitCode("EXIT_CODE_ARGV_SIZE")
       addExitCode("EXIT_CODE_ARGV_ERROR")
+      addExitCode("EXIT_CODE_NOT_SPECIFIED_FILE")
     end
 
     def ec(name)
