@@ -29,13 +29,11 @@ module Messagex
     end
 
     def level=(value)
-      puts value
       @loggerSTDOUT.level=value
       @loggerFILE.level=value
     end
 
     def set_level(value)
-      puts value
       @loggerSTDOUT.level=value
       @loggerFILE.level=value
     end
@@ -53,6 +51,11 @@ module Messagex
     def fatal(mes)
       @loggerSTDOUT.fatal(mes)
       @loggerFILE.fatal(mes)
+    end
+
+    def warn(mes)
+      @loggerSTDOUT.warn(mes)
+      @loggerFILE.warn(mes)
     end
 
     def info(mes)
