@@ -20,6 +20,7 @@ module Messagex
         @logger = Loggerx.new(logFname)
         #    @logger.level = Logger::WARN
         #    @logger.level = Logger::INFO
+
         case debug
         when :debug
           @logger.level = Logger::DEBUG
@@ -29,6 +30,7 @@ module Messagex
         else
           @logger.level = Logger::WARN
         end
+
         #    @logger.datetime_format = '%Y-%m-%d %H:%M:%S'
         @logger.datetime_format = ''
         #logger.formatter = proc do |severity, datetime, progname, msg|
@@ -46,6 +48,7 @@ module Messagex
       addExitCode("EXIT_CODE_CANNOT_FIND_FILE")
       addExitCode("EXIT_CODE_FILE_IS_EMPTY")
       addExitCode("EXIT_CODE_CANNOT_CHANGE_DIRECTORY")
+      addExitCode("EXIT_CODE_CANNOT_MAKE_DIRECTORY")
       addExitCode("EXIT_CODE_CANNOT_CLOSE_FILE")
       addExitCode("EXIT_CODE_CANNOT_OPEN_FILE")
       addExitCode("EXIT_CODE_CANNOT_CLOSE_FILE")
@@ -73,35 +76,43 @@ module Messagex
       end
     end
 
-    def outputError(mes)
+    def outputError(msg)
       if @logger
-        @logger.error(mes)
+        @logger.error(msg)
       else
-        STDERR.puts(mes)
+        STDERR.puts(msg)
       end
     end
 
-    def outputDebug(mes)
+    def outputFatal(msg)
       if @logger
-        @logger.debug(mes)
+        @logger.fatal(msg)
       else
-        STDOUT.puts(mes)
+        STDERR.puts(msg)
       end
     end
 
-    def outputInfo(mes)
+    def outputDebug(msg)
       if @logger
-        @logger.info(mes)
+        @logger.debug(msg)
       else
-        STDOUT.info(mes)
+        STDOUT.puts(msg)
       end
     end
 
-    def outputFatal(mes)
+    def outputInfo(msg)
       if @logger
-        @logger.fatal(mes)
+        @logger.info(msg)
       else
-        STDOUT.fatal(mes)
+        STDOUT.puts(msg)
+      end
+    end
+
+    def outputWarn(msg)
+      if @logger
+        @logger.warn(msg)
+      else
+        STDOUT.puts(msg)
       end
     end
 
@@ -109,6 +120,76 @@ module Messagex
       outputFatal(ex.class)
       outputFatal(ex.message)
       outputFatal(ex.backtrace.join("\n"))
+    end
+
+    def exc(msg, exitCodeStr, block)
+      begin
+        block.call
+      rescue IOError =>ex
+        outputException(ex)
+        outputFatal(msg)
+        exit(ec(exitCodeStr))
+      rescue SystemCallError =>ex
+        outputException(ex)
+        outputFatal(msg)
+        exit(ec(exitCodeStr))
+      end
+    end
+
+    def excChangeDirectory(arg1, &block)
+      msg="Can't change directory to |#{arg1}|"
+      exitCodeStr="EXIT_CODE_CANNOT_CHANGE_DIRECTORY"
+
+      exc(msg, exitCodeStr, block)
+    end
+
+    def excFileOpen(arg1, &block)
+      msg="Cannot open file #{arg1}"
+      exitCodeStr="EXIT_CODE_CANNOT_OPEN_FILE"
+
+      exc(msg, exitCodeStr, block)
+    end
+
+    def excFileRead(arg1, &block)
+      msg="Cannot read file #{arg1}"
+      exitCodeStr="EXIT_CODE_CANNOT_READ_FILE"
+
+      exc(msg, exitCodeStr, block)
+    end
+
+    def excFileGets(arg1, &block)
+      msg="Cannot read file #{arg1}"
+      exitCodeStr="EXIT_CODE_CANNOT_READ_FILE"
+
+      exc(msg, exitCodeStr, block)
+    end
+
+    def excFileClose(arg1,  &block)
+      msg="Cannot close file #{arg1}"
+      exitCodeStr="EXIT_CODE_CANNOT_OPEN_FILE"
+
+      exc(msg, exitCodeStr, block)
+    end
+
+    def excFileWrite(arg1, &block)
+      msg="Cannot write file #{arg1}"
+      exitCodeStr="EXIT_CODE_CANNOT_WRITE_FILE"
+
+      exc(msg, exitCodeStr, block)
+    end
+
+    def excFileCopy(arg1, arg2, &block)
+      msg="Can't copy file from #{arg1} to #{arg2}"
+      exitCodeStr="EXIT_CODE_CANNOT_COPY_FILE"
+
+      exc(msg, exitCodeStr, block)
+    end
+
+    def excMakeDirectory(arg1, &block)
+      msg="Can't make directory to #{arg1}"
+      exitCodeStr="EXIT_CODE_CANNOT_MAKE_DIRECTORY"
+
+      exc(msg, exitCodeStr, block)
     end
   end
 end
