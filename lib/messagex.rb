@@ -16,7 +16,7 @@ module Messagex
       if logger
         @logger=logger
       else
-        logFname=logfname ? logfname : "log.txt"
+        logFname=(logfname != nil and !logfname.empty?) ? logfname : "log.txt"
         @logger = Loggerx.new(logFname)
         #    @logger.level = Logger::WARN
         #    @logger.level = Logger::INFO
