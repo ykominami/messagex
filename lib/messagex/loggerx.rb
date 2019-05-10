@@ -8,7 +8,7 @@ module Messagex
       @loggerSTDOUT.formatter = proc do |severity, _datetime, _progname, msg|
         "#{severity[0]}: #{msg}\n"
       end
-      file = File.open( fname, "w")
+      file = File.open(fname, "w")
       @loggerFILE = Logger.new(file)
       @loggerFILE.level = Logger::INFO
       @loggerFILE.formatter = proc do |severity, _datetime, _progname, msg|
