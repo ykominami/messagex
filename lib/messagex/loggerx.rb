@@ -1,41 +1,39 @@
-require 'logger'
+require "logger"
 
 module Messagex
   class Loggerx
     def initialize(fname)
       @loggerSTDOUT = Logger.new(STDOUT)
       @loggerSTDOUT.level = Logger::UNKNOWN
-      @loggerSTDOUT.formatter = proc do |severity, datetime, progname, msg|
+      @loggerSTDOUT.formatter = proc do |severity, _datetime, _progname, msg|
         "#{severity[0]}: #{msg}\n"
-#        "#{msg}\n"
-      end    
-      file = File.open( fname , 'w')
+      end
+      file = File.open( fname, "w")
       @loggerFILE = Logger.new(file)
       @loggerFILE.level = Logger::INFO
-      @loggerFILE.formatter = proc do |severity, datetime, progname, msg|
+      @loggerFILE.formatter = proc do |severity, _datetime, _progname, msg|
         "#{severity}: #{msg}\n"
-#       "#{msg}\n"
-      end    
+      end
     end
 
     def datetime_format=(format)
-      @loggerSTDOUT.datetime_format=format
-      @loggerFILE.datetime_format=format
+      @loggerSTDOUT.datetime_format = format
+      @loggerFILE.datetime_format = format
     end
 
     def formatter=(format)
-      @loggerSTDOUT.formatter=format
-      @loggerFILE.formatter=format
+      @loggerSTDOUT.formatter = format
+      @loggerFILE.formatter = format
     end
 
     def level=(value)
-      @loggerSTDOUT.level=value
-      @loggerFILE.level=value
+      @loggerSTDOUT.level = value
+      @loggerFILE.level = value
     end
 
     def set_level(value)
-      @loggerSTDOUT.level=value
-      @loggerFILE.level=value
+      @loggerSTDOUT.level = value
+      @loggerFILE.level = value
     end
 
     def debug(mes)

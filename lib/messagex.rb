@@ -1,5 +1,4 @@
 require "messagex/version"
-require 'messagex/loggerx'
 
 module Messagex
   class Error < StandardError; end
@@ -7,16 +6,17 @@ module Messagex
 
   class Messagex
     attr_reader :logger
-#    attr_reader :exitCode
+
+    require "messagex/loggerx"
 
     def initialize(initialExitCode, initialNum, debug=:warn, logger=nil, logfname=nil)
-      @exitCode={}
+      @exitCode = {}
       setInitialExitCode(initialExitCode, initialNum)
-      
+
       if logger
-        @logger=logger
+        @logger = logger
       else
-        logFname=(logfname != nil and !logfname.empty?) ? logfname : "log.txt"
+        logFname = (!logfname.nil? && !logfname.empty?) ? logfname : "log.txt"
         @logger = Loggerx.new(logFname)
         #    @logger.level = Logger::WARN
         #    @logger.level = Logger::INFO
@@ -32,30 +32,26 @@ module Messagex
         end
 
         #    @logger.datetime_format = '%Y-%m-%d %H:%M:%S'
-        @logger.datetime_format = ''
-        #logger.formatter = proc do |severity, datetime, progname, msg|
+        @logger.datetime_format = ""
+        # logger.formatter = proc do |severity, datetime, progname, msg|
         #   ">>>>>> #{msg}\n"
-        #end
-        @logger.formatter = proc do |severity, datetime, progname, msg|
+        # end
+        @logger.formatter = proc do |_severity, _datetime, _progname, msg|
           "#{msg}\n"
         end
       end
 
-      addExitCode("EXIT_CODE_NORMAL_EXIT")
+      register_exit_codes
+    end
+
+    def register_exit_codes
       addExitCode("EXIT_CODE_CANNOT_READ_FILE")
       addExitCode("EXIT_CODE_CANNOT_WRITE_FILE")
-      addExitCode("EXIT_CODE_CANNOT_FIND_FILE_OR_EMPTY")
-      addExitCode("EXIT_CODE_CANNOT_FIND_FILE")
-      addExitCode("EXIT_CODE_FILE_IS_EMPTY")
+      addExitCode("EXIT_CODE_CANNOT_FIND_DIRECTORY")
       addExitCode("EXIT_CODE_CANNOT_CHANGE_DIRECTORY")
       addExitCode("EXIT_CODE_CANNOT_MAKE_DIRECTORY")
-      addExitCode("EXIT_CODE_CANNOT_CLOSE_FILE")
       addExitCode("EXIT_CODE_CANNOT_OPEN_FILE")
-      addExitCode("EXIT_CODE_CANNOT_CLOSE_FILE")
       addExitCode("EXIT_CODE_CANNOT_COPY_FILE")
-      addExitCode("EXIT_CODE_ARGV_SIZE")
-      addExitCode("EXIT_CODE_ARGV_ERROR")
-      addExitCode("EXIT_CODE_NOT_SPECIFIED_FILE")
     end
 
     def ec(name)
@@ -63,16 +59,16 @@ module Messagex
     end
 
     def setInitialExitCode(name, num)
-      @exitCode={}
-      @exitCode[name]=num
-      @curExitCode=num
+      @exitCode = {}
+      @exitCode[name] = num
+      @curExitCode = num
     end
 
     def addExitCode(str)
       unless @exitCode[str]
-        num=(@curExitCode+1)
-        @exitCode[str]=num
-        @curExitCode=num
+        num = (@curExitCode + 1)
+        @exitCode[str] = num
+        @curExitCode = num
       end
     end
 
@@ -80,7 +76,7 @@ module Messagex
       if @logger
         @logger.error(msg)
       else
-        STDERR.puts(msg)
+        warn(msg)
       end
     end
 
@@ -88,7 +84,7 @@ module Messagex
       if @logger
         @logger.fatal(msg)
       else
-        STDERR.puts(msg)
+        warn(msg)
       end
     end
 
@@ -125,69 +121,69 @@ module Messagex
     def exc(msg, exitCodeStr, block)
       begin
         block.call
-      rescue IOError =>ex
-        outputException(ex)
+      rescue IOError => e
+        outputException(e)
         outputFatal(msg)
         exit(ec(exitCodeStr))
-      rescue SystemCallError =>ex
-        outputException(ex)
+      rescue SystemCallError => e
+        outputException(e)
         outputFatal(msg)
         exit(ec(exitCodeStr))
       end
     end
 
     def excChangeDirectory(arg1, &block)
-      msg="Can't change directory to |#{arg1}|"
-      exitCodeStr="EXIT_CODE_CANNOT_CHANGE_DIRECTORY"
+      msg = "Can't change directory to |#{arg1}|"
+      exitCodeStr = "EXIT_CODE_CANNOT_CHANGE_DIRECTORY"
 
       exc(msg, exitCodeStr, block)
     end
 
     def excFileOpen(arg1, &block)
-      msg="Cannot open file #{arg1}"
-      exitCodeStr="EXIT_CODE_CANNOT_OPEN_FILE"
+      msg = "Cannot open file #{arg1}"
+      exitCodeStr = "EXIT_CODE_CANNOT_OPEN_FILE"
 
       exc(msg, exitCodeStr, block)
     end
 
     def excFileRead(arg1, &block)
-      msg="Cannot read file #{arg1}"
-      exitCodeStr="EXIT_CODE_CANNOT_READ_FILE"
+      msg = "Cannot read file #{arg1}"
+      exitCodeStr = "EXIT_CODE_CANNOT_READ_FILE"
 
       exc(msg, exitCodeStr, block)
     end
 
     def excFileGets(arg1, &block)
-      msg="Cannot read file #{arg1}"
-      exitCodeStr="EXIT_CODE_CANNOT_READ_FILE"
+      msg = "Cannot read file #{arg1}"
+      exitCodeStr = "EXIT_CODE_CANNOT_READ_FILE"
 
       exc(msg, exitCodeStr, block)
     end
 
-    def excFileClose(arg1,  &block)
-      msg="Cannot close file #{arg1}"
-      exitCodeStr="EXIT_CODE_CANNOT_OPEN_FILE"
+    def excFileClose(arg1, &block)
+      msg = "Cannot close file #{arg1}"
+      exitCodeStr = "EXIT_CODE_CANNOT_OPEN_FILE"
 
       exc(msg, exitCodeStr, block)
     end
 
     def excFileWrite(arg1, &block)
-      msg="Cannot write file #{arg1}"
-      exitCodeStr="EXIT_CODE_CANNOT_WRITE_FILE"
+      msg = "Cannot write file #{arg1}"
+      exitCodeStr = "EXIT_CODE_CANNOT_WRITE_FILE"
 
       exc(msg, exitCodeStr, block)
     end
 
     def excFileCopy(arg1, arg2, &block)
-      msg="Can't copy file from #{arg1} to #{arg2}"
-      exitCodeStr="EXIT_CODE_CANNOT_COPY_FILE"
+      msg = "Can't copy file from #{arg1} to #{arg2}"
+      exitCodeStr = "EXIT_CODE_CANNOT_COPY_FILE"
 
       exc(msg, exitCodeStr, block)
     end
 
     def excMakeDirectory(arg1, &block)
-      msg="Can't make directory to #{arg1}"
-      exitCodeStr="EXIT_CODE_CANNOT_MAKE_DIRECTORY"
+      msg = "Can't make directory to #{arg1}"
+      exitCodeStr = "EXIT_CODE_CANNOT_MAKE_DIRECTORY"
 
       exc(msg, exitCodeStr, block)
     end
