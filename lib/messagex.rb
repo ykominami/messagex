@@ -18,8 +18,7 @@ module Messagex
       else
         logFname = (!logfname.nil? && !logfname.empty?) ? logfname : "log.txt"
         @logger = Loggerx.new(logFname)
-        #    @logger.level = Logger::WARN
-        #    @logger.level = Logger::INFO
+        #    Logger::WARN , Logger::INFO
 
         case debug
         when :debug
@@ -65,11 +64,11 @@ module Messagex
     end
 
     def addExitCode(str)
-      unless @exitCode[str]
-        num = (@curExitCode + 1)
-        @exitCode[str] = num
-        @curExitCode = num
-      end
+      return if @exitCode[str]
+
+      num = (@curExitCode + 1)
+      @exitCode[str] = num
+      @curExitCode = num
     end
 
     def outputError(msg)
