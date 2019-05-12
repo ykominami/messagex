@@ -31,11 +31,6 @@ module Messagex
       @loggerFILE.level = value
     end
 
-    def set_level(value)
-      @loggerSTDOUT.level = value
-      @loggerFILE.level = value
-    end
-
     def debug(mes)
       @loggerSTDOUT.debug(mes)
       @loggerFILE.debug(mes)
