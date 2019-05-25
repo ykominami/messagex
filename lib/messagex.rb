@@ -59,20 +59,20 @@ module Messagex
     end
 
     def ec(name)
-      @exitCode[name]
+      @exit_code[name]
     end
 
     def set_initial_exitcode(name, num)
-      @exitcode = {}
-      @exitcode[name] = num
+      @exit_code = {}
+      @exit_code[name] = num
       @cur_exitcode = num
     end
 
     def add_exitcode(str)
-      return if @exitcode[str]
+      return if @exit_code[str]
 
       num = (@cur_exitcode + 1)
-      @exitcode[str] = num
+      @exit_code[str] = num
       @cur_exitcode = num
     end
 
