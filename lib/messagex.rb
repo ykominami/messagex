@@ -104,7 +104,7 @@ module Messagex
     # @param name [String] 登録された終了ステータスの識別名
     # @return [Integer] 終了ステータス
     def ec(name)
-      @exitode[name]
+      @exit_code[name]
     end
 
     #
@@ -114,8 +114,8 @@ module Messagex
     # @param num [Integer] 登録する終了ステータスの値
     # @return [void]
     def set_initial_exitcode(name, num)
-      @exitcode = {}
-      @exitcode[name] = num
+      @exit_code = {}
+      @exit_code[name] = num
       @cur_exitcode = num
     end
 
@@ -125,10 +125,12 @@ module Messagex
     # @param name [String] 値の自動割り当て対象の終了ステータスの識別名
     # @return [Integer] 自動割り当てされた終了ステータスの値
     def add_exitcode(name)
-      return if @exitcode[name]
+      return if @exit_code[name]
+    def add_exitcode(str)
+      return if @exit_code[str]
 
       num = (@cur_exitcode + 1)
-      @exitcode[str] = num
+      @exit_code[str] = num
       @cur_exitcode = num
     end
 
