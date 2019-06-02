@@ -4,6 +4,8 @@ module Messagex
   #
   # 終了ステータス管理、ログ機能管理のクラス
   class Messagex
+    require "forwardable"
+
     extend Forwardable
 
     # @!method exc
