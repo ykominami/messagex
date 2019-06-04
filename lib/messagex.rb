@@ -124,7 +124,7 @@ module Messagex
     #
     # 終了ステータスの値の自動割り当て
     #
-    # @param name [String] 値の自動割り当て対象の終了ステータスの識別名
+    # @param str [String] 値の自動割り当て対象の終了ステータスの識別名
     # @return [Integer] 自動割り当てされた終了ステータスの値
     def add_exitcode(str)
       return if @exit_code[str]
@@ -200,9 +200,9 @@ module Messagex
     end
 
     #
-    # ログレベルが ERROR のメッセージを出力
+    # 例外処理
     #
-    # @param msg [String] 
+    # @param exception [Exception] 発生した例外
     # @return [void]
     def output_exception(exception)
       output_fatal(exception.class)
