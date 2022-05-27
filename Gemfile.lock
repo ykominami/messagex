@@ -21,7 +21,7 @@ GEM
     parallel (1.20.1)
     parser (3.0.1.1)
       ast (~> 2.4.1)
-    rack (2.2.3)
+    rack (2.2.3.1)
     rainbow (3.0.0)
     rake (13.0.3)
     regexp_parser (2.1.1)
@@ -65,6 +65,7 @@ GEM
 
 PLATFORMS
   x64-mingw32
+  x86_64-linux
 
 DEPENDENCIES
   bundler (~> 2.0)
