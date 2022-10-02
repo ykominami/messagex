@@ -137,7 +137,7 @@ module Messagex
     #
     # ログレベルが ERROR のメッセージを出力
     #
-    # @param msg [String] 
+    # @param msg [String]
     # @return [void]
     def output_error(msg)
       if @logger
@@ -150,7 +150,7 @@ module Messagex
     #
     # ログレベルが FATAL のメッセージを出力
     #
-    # @param msg [String] 
+    # @param msg [String]
     # @return [void]
     def output_fatal(msg)
       if @logger
@@ -163,7 +163,7 @@ module Messagex
     #
     # ログレベルが DEBUG のメッセージを出力
     #
-    # @param msg [String] 
+    # @param msg [String]
     # @return [void]
     def output_debug(msg)
       if @logger
@@ -176,7 +176,7 @@ module Messagex
     #
     # ログレベルが INFO のメッセージを出力
     #
-    # @param msg [String] 
+    # @param msg [String]
     # @return [void]
     def output_info(msg)
       if @logger
@@ -189,7 +189,7 @@ module Messagex
     #
     # ログレベルが WARN のメッセージを出力
     #
-    # @param msg [String] 
+    # @param msg [String]
     # @return [void]
     def output_warn(msg)
       if @logger
