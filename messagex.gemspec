@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.description   = %q{Extend Logger functions.}
   spec.homepage      = ""
   spec.license       = "MIT"
+  spec.required_ruby_version = '>= 2.7.0'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
@@ -44,5 +45,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop-performance"
   spec.add_development_dependency "rubocop-rails"
   spec.add_development_dependency "rubocop-rspec"
+  spec.add_development_dependency 'yard'
+
   spec.metadata['rubygems_mfa_required'] = 'true'
 end
