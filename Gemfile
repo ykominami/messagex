@@ -5,7 +5,7 @@ gemspec
 
 gem "bundler"
 gem "rake", "~> 13.0"
-gem "activesupport" , "~> 7.0.4.1"
+gem "activesupport" , "~> 7.0.7.1"
 
 group :test, optional: true do
   gem 'rspec'
