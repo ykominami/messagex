@@ -23,7 +23,7 @@ GEM
     parallel (1.22.1)
     parser (3.2.2.0)
       ast (~> 2.4.1)
-    rack (3.0.7)
+    rack (3.0.9.1)
     rainbow (3.1.1)
     rake (13.0.6)
     regexp_parser (2.7.0)
@@ -71,9 +71,7 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.4.2)
-    webrick (1.7.0)
-    yard (0.9.28)
-      webrick (~> 1.7.0)
+    yard (0.9.36)
 
 PLATFORMS
   x86_64-linux
@@ -82,6 +80,7 @@ DEPENDENCIES
   activesupport (~> 7.0.7.1)
   bundler
   messagex!
+  rack (~> 3.0.9.1)
   rake (~> 13.0)
   rspec
   rubocop
@@ -89,7 +88,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rake
   rubocop-rspec
-  yard
+  yard (~> 0.9.36)
 
 BUNDLED WITH
    2.4.6
