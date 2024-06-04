@@ -7,6 +7,7 @@ gem "bundler"
 gem "rake", "~> 13.0"
 gem "activesupport" , "~> 7.0.7.1"
 gem "rack" , "~> 3.0.9.1"
+gem "rexml" , "< 3.2.7"
 
 group :test, optional: true do
   gem 'rspec'

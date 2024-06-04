@@ -82,6 +82,7 @@ DEPENDENCIES
   messagex!
   rack (~> 3.0.9.1)
   rake (~> 13.0)
+  rexml (< 3.2.7)
   rspec
   rubocop
   rubocop-performance
