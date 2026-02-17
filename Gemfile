@@ -6,7 +6,7 @@ gemspec
 gem "bundler"
 gem "rake", "~> 13.0"
 gem "activesupport" , "~> 7.0.7.1"
-gem "rack" , "~> 3.1.18"
+gem "rack" , "~> 3.1.20"
 gem "rexml" , "~> 3.4.2"
 
 group :test, optional: true do
